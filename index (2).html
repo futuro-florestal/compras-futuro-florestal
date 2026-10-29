@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compras · Futuro Florestal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5f0;--card:#fff;--ink:#1c2b22;--mut:#66756b;--line:#e2e7df;--g:#2d6a4f;--g2:#e5f1ea;--red:#b42318;--red2:#fdeceb;--amb:#9a5b06;--amb2:#fff3d6;--blue:#1d4e89;--blue2:#e6eefa}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+.hide{display:none!important}
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px;width:100%;max-width:380px;text-align:center}
+.box img{height:64px;margin-bottom:8px}.box h1{font-size:20px;margin:0 0 4px}.box p{color:var(--mut);margin:0 0 12px}
+.box label,.box input{text-align:left}
+label{display:block;font-size:12px;font-weight:600;color:var(--mut);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+input[type=checkbox]{width:auto}
+.btn{border:0;border-radius:9px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--g);color:#fff}
+.btn.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.red{background:var(--red2);color:var(--red)}
+.btn.sm{padding:5px 10px;font-size:12px}.btn:disabled{opacity:.5}
+.err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
+header{display:flex;align-items:center;gap:12px;padding:10px 24px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header img{height:38px}header .t{flex:1;font-weight:700;font-size:16px}
+header small{color:var(--mut)}
+#bell{position:relative;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 10px;cursor:pointer}
+#bell b{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:99px;font-size:11px;padding:1px 6px}
+main{padding:20px 24px;max-width:1500px;margin:auto}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{font-size:28px;display:block;line-height:1.1}.kpi span{color:var(--mut);font-size:12px}.kpi.r b{color:var(--red)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.bar input,.bar select{width:auto;min-width:130px}.bar input[type=search]{flex:1;min-width:200px}
+.tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:9px;border:0;background:transparent;cursor:pointer;font-weight:600;color:var(--mut)}
+.tab.on{background:var(--g2);color:var(--g)}.tab:disabled{opacity:.5;cursor:default}
+.wrap{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:980px}
+th{text-align:left;font-size:12px;color:var(--mut);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:#fafbf8}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr{cursor:pointer}tbody tr:hover{background:#f8faf6}
+tr.late td:first-child{box-shadow:inset 3px 0 var(--red)}tr.soon td:first-child{box-shadow:inset 3px 0 #d99a1f}
+.sub{color:var(--mut);font-size:12px}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;background:#eef0ec;color:var(--mut);white-space:nowrap}
+.tag.red{background:var(--red2);color:var(--red)}.tag.amb{background:var(--amb2);color:var(--amb)}.tag.g{background:var(--g2);color:var(--g)}.tag.b{background:var(--blue2);color:var(--blue)}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+.kb{display:grid;grid-template-columns:repeat(4,minmax(240px,1fr));gap:12px;overflow:auto;align-items:start}
+.col{background:#e9eee6;border-radius:14px;padding:10px}
+.col h3{margin:2px 4px 10px;font-size:13px;display:flex;justify-content:space-between}
+.card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.card.late{border-left-color:var(--red)}.card.soon{border-left-color:#d99a1f}
+.card b{display:block;margin-bottom:4px}.card .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+dialog{border:0;border-radius:16px;padding:0;width:min(720px,94vw);max-height:92vh}
+dialog::backdrop{background:#0b1a1266}
+.dh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.dh h2{margin:0;font-size:17px}
+.db{padding:6px 22px 18px;overflow:auto;max-height:70vh}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.full{grid-column:1/-1}
+.df{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end}
+.hist{font-size:12px;color:var(--mut);margin:6px 0 0;padding:0;list-style:none}.hist li{padding:4px 0;border-bottom:1px dashed var(--line)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;z-index:99}
+@media(max-width:800px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}main{padding:14px}.kb{grid-template-columns:repeat(4,80vw)}}
+</style></head>
+<body>
+<section id="login"><form class="box" id="lf">
+<img src="logo.png" alt="Futuro Florestal" onerror="this.remove()">
+<h1>Compras · Futuro Florestal</h1><p>Entre com seu e-mail e senha.</p>
+<label>E-mail</label><input type="email" id="em" required autocomplete="username">
+<label>Senha</label><input type="password" id="pw" required autocomplete="current-password">
+<div class="err" id="le"></div><button class="btn" style="width:100%">Entrar</button></form></section>
+
+<div id="app" class="hide">
+<header><img src="logo.png" alt="" onerror="this.remove()"><div class="t">Compras · Futuro Florestal</div><small id="who"></small>
+<button id="bell" class="hide" title="Novas solicitações">🔔<b id="bn">0</b></button>
+<button class="btn sec" id="exp">Exportar CSV</button><button class="btn sec" id="out">Sair</button></header>
+<main>
+<div class="kpis" id="kpis"></div>
+<div class="tabs"><button class="tab on" data-t="kanban">Kanban</button><button class="tab" data-t="lista">Lista</button><button class="tab" data-t="compras">Compras realizadas</button><button class="tab" disabled>Requisições (em breve)</button></div>
+<div class="bar">
+<input type="search" id="q" placeholder="Pesquisar por descrição…">
+<select id="fc"></select><select id="fs"></select><select id="fst"></select>
+<select id="fu"><option value="">Urgência: todas</option><option value="late">Atrasadas</option><option value="soon">Urgentes</option></select>
+<button class="btn" id="new">+ Nova solicitação</button></div>
+<div id="kb" class="kb"></div>
+<div class="wrap" id="lw"><table><thead><tr><th>Data</th><th>Categoria</th><th>Descrição</th><th>Qtd.</th><th>Prazo</th><th>Solicitante</th><th>Status</th><th>Aprovação</th><th>Próxima ação</th></tr></thead><tbody id="tb"></tbody></table><div id="em0" class="empty hide">Nenhuma solicitação encontrada.</div></div>
+</main></div>
+
+<dialog id="dlg"><form id="f">
+<div class="dh"><h2 id="dt"></h2><button type="button" class="btn sec" id="x">Fechar</button></div>
+<div class="db"><div class="grid">
+<div class="full" id="tpw"><label>Tipo de item</label><select id="tp"><option value="padrao">Item padrão (do catálogo)</option><option value="novo">Item novo (livre)</option></select></div>
+<div class="full" id="cpw"><label>Escolha o item padrão</label><select id="cp"></select></div>
+<div class="full"><label>Descrição *</label><input id="descricao" required></div>
+<div><label>Categoria</label><select id="categoria"></select></div>
+<div><label>Solicitante</label><input id="solicitante"></div>
+<div><label>Quantidade</label><input id="quantidade" type="number" step="any" min="0"></div>
+<div><label>Unidade</label><input id="unidade" list="uns"><datalist id="uns"><option>unid.</option><option>litro</option><option>kg</option><option>caixa</option><option>par</option><option>pacote</option></datalist></div>
+<div class="full"><label id="ml">Motivo</label><input id="motivo"></div>
+<div><label>Prazo de entrega</label><input id="prazo" type="date"></div>
+<div><label>Enviado por</label><select id="canal_envio"><option value="">—</option><option>E-mail</option><option>WhatsApp</option></select></div>
+<div><label>Status (só o Coordenador altera)</label><select id="status"></select></div>
+<div><label>Data da compra</label><input id="data_compra" type="date"></div>
+<div class="full" style="display:flex;gap:18px;flex-wrap:wrap;margin:10px 0">
+<label style="display:flex;gap:8px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" id="urgente"> Urgente</label>
+<label id="sgw" style="display:flex;gap:8px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" id="sugerir_padrao"> Sugerir como item padrão</label></div>
+<div class="full"><label>Observações</label><textarea id="observacoes" rows="2"></textarea></div>
+</div>
+<div id="hw" class="hide"><label>Histórico</label><ul class="hist" id="hl"></ul></div></div>
+<div class="df"><button type="button" class="btn red hide" id="del" style="margin-right:auto">Excluir</button><button type="button" class="btn sec" id="c2">Cancelar</button><button class="btn" id="sv">Salvar</button></div>
+</form></dialog>
+<div id="toast" class="hide"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const sb=supabase.createClient('https://dpouhdddwvtppsfduaxe.supabase.co','sb_publishable_oHh5qSUOoMT5ORliM06ohw_1QmXkAsG');
+const STATUS=['Nova solicitação','Aguardando informações','Em análise','Em cotação','Cotação enviada','Compra aprovada','Compra realizada','Aguardando entrega','Recebida/concluída','Reprovada/cancelada'];
+const CATS=['Material','EPI','Manutenção','Ferramentas','Limpeza','Adubo/Fertilizante','Defensivo','Outros'];
+const NEXT={'Nova solicitação':'Coordenador: iniciar cotação','Aguardando informações':'Solicitante: enviar informações','Em análise':'Coordenador: analisar o pedido','Em cotação':'Coordenador: enviar a cotação','Cotação enviada':'Coordenador: aprovar a compra','Compra aprovada':'Coordenador: realizar a compra','Compra realizada':'Acompanhar a entrega','Aguardando entrega':'Receber e conferir o item','Recebida/concluída':'Nada pendente','Reprovada/cancelada':'Encerrada'};
+const ADV={'Nova solicitação':'Em cotação','Aguardando informações':'Em cotação','Em análise':'Em cotação','Em cotação':'Cotação enviada','Cotação enviada':'Compra aprovada','Compra aprovada':'Compra realizada','Compra realizada':'Aguardando entrega','Aguardando entrega':'Recebida/concluída'};
+const COLS=[['Novas',['Nova solicitação','Aguardando informações','Em análise']],['Em cotação',['Em cotação']],['Cotação enviada',['Cotação enviada']],['Compra aprovada',['Compra aprovada']]];
+const COMPRAS=['Compra aprovada','Compra realizada','Aguardando entrega','Recebida/concluída'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const open=s=>!['Recebida/concluída','Reprovada/cancelada'].includes(s);
+const fd=d=>d?d.split('-').reverse().join('/'):'—';
+let me=null,rows=[],cat=[],tab='kanban',cur=null,known=null;
+const isC=()=>me.papel==='coordenador';
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.remove('hide');setTimeout(()=>t.classList.add('hide'),3500)}
+function dias(p){if(!p)return null;const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(p+'T00:00')-t)/864e5)}
+function urg(r){if(!open(r.status))return '';const d=dias(r.prazo);if(d!==null&&d<0)return 'late';if(r.urgente||(d!==null&&d<=2))return 'soon';return ''}
+function prazoTag(r){const u=urg(r),d=dias(r.prazo);if(u==='late')return `<span class="tag red">Atrasada ${-d}d</span> <span class="sub">${fd(r.prazo)}</span>`;
+ if(u==='soon')return `<span class="tag amb">${r.urgente?'Urgente':d===0?'Vence hoje':'Vence em '+d+'d'}</span> <span class="sub">${fd(r.prazo)}</span>`;return `<span class="sub">Prazo ${fd(r.prazo)}</span>`}
+function stTag(s){const c=s==='Recebida/concluída'?'g':s==='Reprovada/cancelada'?'red':s==='Cotação enviada'?'amb':'b';return `<span class="tag ${c}">${s}</span>`}
+function apTag(a){return `<span class="tag ${a==='Aprovado'?'g':a==='Reprovado'?'red':''}">${a}</span>`}
+
+$('#lf').onsubmit=async e=>{e.preventDefault();$('#le').textContent='';
+ const {error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});
+ if(error)$('#le').textContent='E-mail ou senha incorretos.';else start()};
+$('#out').onclick=async()=>{await sb.auth.signOut();location.reload()};
+async function start(){
+ const {data:{user}}=await sb.auth.getUser();if(!user)return;
+ const {data:p}=await sb.from('profiles').select('*').eq('id',user.id).single();
+ me={id:user.id,nome:p?.nome||user.email,papel:p?.papel||'solicitante'};
+ $('#who').textContent=`${me.nome} · ${isC()?'Coordenador':'Solicitante'}`;
+ $('#login').classList.add('hide');$('#app').classList.remove('hide');$('#bell').classList.toggle('hide',!isC());
+ const op=a=>a.map(c=>`<option>${c}</option>`).join('');
+ $('#categoria').innerHTML=op(CATS);$('#status').innerHTML=op(STATUS);
+ $('#fc').innerHTML='<option value="">Categoria: todas</option>'+op(CATS);$('#fst').innerHTML='<option value="">Status: todos</option>'+op(STATUS);
+ const {data:c}=await sb.from('catalogo').select('*').eq('ativo',true).order('nome');cat=c||[];
+ $('#cp').innerHTML='<option value="">Selecione…</option>'+cat.map(i=>`<option value="${i.id}">${esc(i.nome)} (${esc(i.categoria)})</option>`).join('');
+ if(isC()&&window.Notification&&Notification.permission==='default')Notification.requestPermission();
+ await load();setInterval(()=>{if(!document.hidden)load()},30000)}
+async function load(){
+ const {data,error}=await sb.from('solicitacoes').select('*').eq('excluido',false).order('id',{ascending:false});
+ if(error){toast('Erro ao carregar: '+error.message);return}
+ rows=data;
+ if(known&&isC()){rows.filter(r=>!known.has(r.id)&&r.criado_por!==me.id).forEach(r=>{toast('Nova solicitação: '+r.descricao);
+  if(window.Notification&&Notification.permission==='granted')new Notification('Nova solicitação de compra',{body:r.descricao+' — '+(r.solicitante||'')})})}
+ known=new Set(rows.map(r=>r.id));
+ const s=[...new Set(rows.map(r=>r.solicitante).filter(Boolean))].sort(),v=$('#fs').value;
+ $('#fs').innerHTML='<option value="">Solicitante: todos</option>'+s.map(c=>`<option>${esc(c)}</option>`).join('');$('#fs').value=v;render()}
+function filt(){const q=$('#q').value.toLowerCase(),fc=$('#fc').value,fs=$('#fs').value,fst=$('#fst').value,fu=$('#fu').value;
+ return rows.filter(r=>(!q||(r.descricao||'').toLowerCase().includes(q))&&(!fc||r.categoria===fc)&&(!fs||r.solicitante===fs)&&(!fst||r.status===fst)&&(!fu||urg(r)===fu))}
+function advBtn(r){return isC()&&ADV[r.status]?`<button class="btn sm" data-adv="${r.id}">Avançar › ${ADV[r.status]}</button>`:''}
+function render(){
+ const n=rows.filter(r=>r.status==='Nova solicitação').length;$('#bn').textContent=n;document.title=(n&&isC()?`(${n}) `:'')+'Compras · Futuro Florestal';
+ const K=[['Abertas',rows.filter(r=>open(r.status)).length],['Cotação enviada',rows.filter(r=>r.status==='Cotação enviada').length],['Em andamento',rows.filter(r=>['Em análise','Em cotação','Compra aprovada','Compra realizada','Aguardando entrega'].includes(r.status)).length],['Concluídas',rows.filter(r=>r.status==='Recebida/concluída').length],['Atrasadas',rows.filter(r=>urg(r)==='late').length]];
+ $('#kpis').innerHTML=K.map((k,i)=>`<div class="kpi ${i===4&&k[1]?'r':''}"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('');
+ let l=filt();const kb=tab==='kanban';$('#kb').classList.toggle('hide',!kb);$('#lw').classList.toggle('hide',kb);
+ const srt=a=>a.sort((a,b)=>((a.prazo||'9')>(b.prazo||'9')?1:-1));
+ if(kb){$('#kb').innerHTML=COLS.map(([t,ss])=>{const c=srt(l.filter(r=>ss.includes(r.status)));
+  return `<div class="col"><h3>${t}<span class="tag">${c.length}</span></h3>${c.map(r=>`<div class="card ${urg(r)}" data-id="${r.id}"><b>${esc(r.descricao)}${r.teste?' <span class="tag">TESTE</span>':''}</b><span class="sub">${r.quantidade??'—'} ${esc(r.unidade)} · ${esc(r.categoria)} · ${esc(r.solicitante)}</span><div class="row">${prazoTag(r)}${r.status!==t?stTag(r.status):''}</div><div class="row">${advBtn(r)}</div></div>`).join('')||'<div class="sub" style="padding:8px">Nada aqui.</div>'}</div>`}).join('');return}
+ if(tab==='compras')l=l.filter(r=>COMPRAS.includes(r.status));
+ l=srt(l).sort((a,b)=>open(b.status)-open(a.status));
+ $('#tb').innerHTML=l.map(r=>`<tr data-id="${r.id}" class="${urg(r)}"><td>${fd(r.data_solicitacao)}</td><td>${esc(r.categoria)}</td><td><b>${esc(r.descricao)}</b>${r.teste?' <span class="tag">TESTE</span>':''}${r.tipo==='novo'&&r.sugerir_padrao?' <span class="tag g">Sugestão de padrão</span>':''}<div class="sub">${esc(r.motivo)}${r.observacoes?' · '+esc(r.observacoes):''}</div></td><td>${r.quantidade??'—'} ${esc(r.unidade)}</td><td>${prazoTag(r)}${tab==='compras'?`<div class="sub">Comprado em ${fd(r.data_compra)}</div>`:''}</td><td>${esc(r.solicitante)}</td><td>${stTag(r.status)}</td><td>${apTag(r.aprovacao)}</td><td>${NEXT[r.status]}<div>${advBtn(r)}</div></td></tr>`).join('');
+ $('#em0').classList.toggle('hide',l.length>0)}
+['q','fc','fs','fst','fu'].forEach(i=>$('#'+i).oninput=render);
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{if(b.disabled)return;tab=b.dataset.t;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));render()});
+$('#bell').onclick=()=>{$('#fst').value='Nova solicitação';tab='lista';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.t==='lista'));render()};
+document.addEventListener('click',async e=>{const a=e.target.closest('[data-adv]');
+ if(a){e.stopPropagation();const r=rows.find(x=>x.id==a.dataset.adv);a.disabled=true;
+  const {error}=await sb.from('solicitacoes').update({status:ADV[r.status]}).eq('id',r.id);if(error)toast(error.message);else{toast('Status: '+ADV[r.status]);load()}return}
+ const t=e.target.closest('#tb tr,.card');if(t)edit(rows.find(r=>r.id==t.dataset.id))},true);
+$('#new').onclick=()=>edit(null);
+const F=['descricao','categoria','solicitante','quantidade','unidade','motivo','prazo','canal_envio','status','data_compra','observacoes'];
+function tipoUI(){const p=$('#tp').value==='padrao'&&!cur;$('#cpw').classList.toggle('hide',!p);$('#sgw').classList.toggle('hide',p||!!cur&&cur.tipo==='padrao');
+ $('#motivo').required=!cur&&$('#tp').value==='novo';$('#ml').textContent=$('#motivo').required?'Motivo *':'Motivo'}
+$('#tp').onchange=tipoUI;
+$('#cp').onchange=()=>{const i=cat.find(x=>x.id==$('#cp').value);if(i){$('#descricao').value=i.nome;$('#categoria').value=i.categoria;$('#unidade').value=i.unidade||''}};
+async function edit(r){cur=r;$('#dt').textContent=r?'Editar solicitação':'Nova solicitação';
+ F.forEach(k=>$('#'+k).value=r?(r[k]??''):({solicitante:me.nome,unidade:'unid.',status:'Nova solicitação',categoria:'Material'}[k]??''));
+ $('#urgente').checked=!!r?.urgente;$('#sugerir_padrao').checked=!!r?.sugerir_padrao;$('#status').disabled=!isC();
+ $('#tpw').classList.toggle('hide',!!r);$('#tp').value='padrao';$('#cp').value='';$('#del').classList.toggle('hide',!r);tipoUI();
+ $('#hw').classList.toggle('hide',!r);if(r){$('#hl').innerHTML='<li>Carregando…</li>';
+  const {data}=await sb.from('historico').select('*').eq('solicitacao_id',r.id).order('id',{ascending:false});
+  $('#hl').innerHTML=(data||[]).map(h=>`<li>${new Date(h.criado_em).toLocaleString('pt-BR')} · ${esc(h.usuario_nome)} · ${esc(h.campo)}${h.valor_antigo?': '+esc(h.valor_antigo)+' → ':': '}${esc(h.valor_novo)}</li>`).join('')||'<li>Sem alterações registradas.</li>'}
+ $('#dlg').showModal()}
+$('#x').onclick=$('#c2').onclick=()=>$('#dlg').close();
+const perm=e=>e.message.includes('row-level')?'Você não tem permissão para esta ação.':e.message;
+$('#f').onsubmit=async e=>{e.preventDefault();
+ if(!cur&&$('#tp').value==='padrao'&&!$('#cp').value){toast('Escolha um item do catálogo.');return}
+ $('#sv').disabled=true;const o={};F.forEach(k=>{let v=$('#'+k).value.trim();o[k]=v===''?null:v});
+ o.quantidade=o.quantidade===null?null:Number(o.quantidade);o.urgente=$('#urgente').checked;
+ if(!isC())delete o.status;if(!cur){o.tipo=$('#tp').value;o.sugerir_padrao=o.tipo==='novo'&&$('#sugerir_padrao').checked}else if(cur.tipo==='novo')o.sugerir_padrao=$('#sugerir_padrao').checked;
+ const {error}=cur?await sb.from('solicitacoes').update(o).eq('id',cur.id):await sb.from('solicitacoes').insert(o);
+ $('#sv').disabled=false;if(error){toast(perm(error));return}$('#dlg').close();toast('Salvo.');load()};
+$('#del').onclick=async()=>{if(!confirm('Excluir esta solicitação? Ela sai da lista, mas fica registrada no histórico.'))return;
+ const {error}=await sb.from('solicitacoes').update({excluido:true}).eq('id',cur.id);
+ if(error){toast(perm(error));return}$('#dlg').close();toast('Excluída.');load()};
+$('#exp').onclick=()=>{const k=['data_solicitacao','categoria','descricao','quantidade','unidade','motivo','prazo','urgente','solicitante','status','canal_envio','aprovacao','data_compra','observacoes','tipo','teste'];
+ const c=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const t=[k.map(c).join(';'),...rows.map(r=>k.map(x=>c(r[x])).join(';'))].join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv;charset=utf-8'}));a.download='compras-'+new Date().toISOString().slice(0,10)+'.csv';a.click()};
+sb.auth.getSession().then(({data})=>{if(data.session)start()});
+</script></body></html>
